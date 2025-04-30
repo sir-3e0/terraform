@@ -1,0 +1,45 @@
+---
+- name: install enable and run apache webserver
+  hosts: all
+  tasks:
+  - name: Update 
+    ansible.builtin.apt:
+      name: "*"
+      state: latest
+      update_cache: true
+  - name: install 
+    ansible.builtin.apt:
+      name: apache2
+      state: latest
+  - name: copy index file to server
+    ansible.builtin.copy:
+      src: index.html
+      dest: /var/www/html
+      owner: www-data
+      group: www-data
+      mode: '0644'
+  - name: run and enable
+    service:
+      name: apache2
+      state: started
+      enabled: true
+  - name: Remove useless packages from the cache
+    ansible.builtin.apt:
+      autoclean: yes
+
+  - name: Remove useless packages from the cache
+    ansible.builtin.apt:
+       autoclean: yes
+
+  - name: Remove useless packages from the cache
+    ansible.builtin.apt:
+      autoclean: yes
+    
+  - name: Remove dependencies that are no longer required and purge their configuration files
+    ansible.builtin.apt:
+      autoremove: yes
+      purge: true
+
+  - name: Run the equivalent of "apt-get clean" as a separate step
+    ansible.builtin.apt:
+      clean: yes
